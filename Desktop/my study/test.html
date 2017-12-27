@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=gbk" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="robots" content="all" />
+<meta name="Copyright" content="Tencent" />
+<meta name="Keywords" content="腾讯游戏" />
+<meta name="description" content="官方网站" />
+<meta http-equiv="Access-Control-Allow-Origin" content="*">
+<title>英魂之刃-腾讯游戏</title>
+<script type="text/javascript" src="http://ossweb-img.qq.com/images/js/milo/util/jquery-1.11.3.min.js"></script>
+<style>
+body,div,em,i,p,ul,ol,li,dl,dt,dd,h1,h2,h3,h4,h5{padding:0;margin:0;}
+body{font:12px/1.5 'Microsoft Yahei',tahoma,'\5b8b\4f53',sans-serif;background:#101117;min-width:1200px;}
+a{outline:0 none;cursor:pointer;text-decoration:none;}
+ul{list-style:none;}
+ol{list-style-position:inside;} 
+img{border:0 none;}
+em,i{font-style:normal;}
+table{border-collapse:collapse;border-spacing:0;}
+.tab li{float: left; padding: 0 10px;}
+.tab li a{color: #fff;}
+#LatestNews{color: #FFF;}
+.LatestNews{color: #f00; overflow: hidden;}
+.LatestNews ul{width: 400px; float: left; margin: 0 5px; background: #ccc;}
+.LatestNews li{position:relative;padding:6px 0;font-size:14px;}
+.LatestNews em{display:inline-block;border:2px solid #0f72b2;padding:2px 12px;margin-right:5px;color:#0f72b2;}
+.LatestNews a{display:block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;width:300px;color:#989ed1;}
+.LatestNews a:hover{color:#fff;text-decoration:underline;}
+.LatestNews .module em,.LatestNews span{position:absolute;right:0;top:10px;color:#989ed1;}
+.LatestNews .one-news{font-size:22px;text-align:center;}
+.LatestNews .one-news em,.LatestNews .one-news span{display:none;}
+.LatestNews .one-news a{color:#bf8800;width:300px;margin:0 auto}
+.LatestNews .module{overflow:hidden;height:330px;}
+.LatestNews .module li{padding:10px 0;}
+.LatestNews .module li span{display: inline-block;}
+.LatestNews .module em{display:inline;border:0 none;padding:0;margin:0;}
+.LatestNews .module li.one-news{font-size: 16px; font-weight: bold;}
+.LatestNews .module li.one-news a{width: 100%;}
+.LatestNews .module li.one-news em{display: none;}
+</style>
+
+
+</head>
+<body>
+	<div id="LatestNews"></div>
+	<div class="tab clr">
+		<ul id="tabNews">
+            <li class="lid1"><a href="javascript:;" class="on">全部</a></li>
+            <li class="lid2"><a href="javascript:;">新闻</a></li>
+            <li class="lid3"><a href="javascript:;">活动</a></li>
+            <li class="lid4 bor-r-0"><a href="javascript:;">攻略</a></li>
+        </ul>
+	</div>
+	<div class="LatestNews">
+		<div id="newsList1">
+			<ul class="module"></ul>
+		</div>
+		<div id="newsList2">
+			<ul class="module"></ul>
+		</div>
+		<div id="newsList3">
+			<ul class="module"></ul>
+		</div>
+		<div id="newsList4">
+			<ul class="module"></ul>
+		</div>
+	</div>
+
+
+<script>
+function Artpullmal(laid){
+	this.Cmd="articlelist_pull_normal";
+	this.Version="1";
+	this.BackString="";
+	this.UserID="695622286";
+	this.MsgBody={
+		appid:"10127",
+		bid:"gameforum",
+		labelid:laid
+	};
+}
+$.ajax({
+	url:"http://forum.minigame.qq.com/GameForums/ForumsArticle",
+	type:'POST',
+	crossDomain:true,
+	xhrFields:{
+		withCredentials:true
+	},
+	data:JSON.stringify({
+		"Cmd":"articlelist_pull_normal",
+		"Version":1,
+		"BackString":"",
+		"UserID":695622286,
+		"MsgBody":{
+			"appid":"10127",
+			"bid":"gameforum"
+		}
+	}),
+	success:function(data){
+		//$("#LatestNews").append(data);
+		var models = eval("("+data+")");
+		var lat1="";
+		var lat2="";
+		var lat3="";
+		var lat4="";
+		var n=models['MsgBody']['lists'].length;
+		for(i=0;i<n;i++){
+			var tit=models['MsgBody'].lists[i].title;
+			var ctstamp=models['MsgBody'].lists[i].ctstamp;
+			var time= new Date(ctstamp*1000);
+			var y=time.getFullYear();
+			var m=time.getMonth()+1;
+			var d=time.getDate();
+			var urlk=models['MsgBody'].lists[i].articleid;
+			//var med=models['MsgBody'].lists[i].medal;
+			//var laid=models['MsgBody'].lists[i].labelids[0];
+			if(models['MsgBody'].lists[i].medal!=null){
+				lat1+="<li>"+"<em>【全部】</em>"+"<a href='http://qqgame.qq.com/gameinfo/10127.html#"+urlk+"' target='_blank'>"+tit+"</a>"+"<span>"+y+m+d+"</span></li>";
+			}
+				
+		}
+		$("#newsList1 ul").append(lat1);
+	}
+});
+
+$.ajax({
+	url:"http://forum.minigame.qq.com/GameForums/ForumsArticle",
+	type:'POST',
+	crossDomain:true,
+	xhrFields:{
+		withCredentials:true
+	},
+	data:JSON.stringify(new Artpullmal(70)),
+	success:function(data){
+		//$("#LatestNews").append(data);
+		var models = eval("("+data+")");
+		var lat1="";
+		var lat2="";
+		var lat3="";
+		var lat4="";
+		var n=models['MsgBody']['lists'].length;
+		for(i=0;i<n;i++){
+			var tit=models['MsgBody'].lists[i].title;
+			var ctstamp=models['MsgBody'].lists[i].ctstamp;
+			var time= new Date(ctstamp*1000);
+			var y=time.getFullYear();
+			var m=time.getMonth()+1;
+			var d=time.getDate();
+			var urlk=models['MsgBody'].lists[i].articleid;
+			//var med=models['MsgBody'].lists[i].medal;
+			//var laid=models['MsgBody'].lists[i].labelids[0];
+			if(models['MsgBody'].lists[i].medal!=null){
+				lat1+="<li>"+"<em>【新闻】</em>"+"<a href='http://qqgame.qq.com/gameinfo/10127.html#"+urlk+"' target='_blank'>"+tit+"</a>"+"<span>"+y+m+d+"</span></li>";//新闻公告
+			}
+				
+		}
+		$("#newsList2 ul").append(lat1);
+	}
+});
+$.ajax({
+	url:"http://forum.minigame.qq.com/GameForums/ForumsArticle",
+	type:'POST',
+	crossDomain:true,
+	xhrFields:{
+		withCredentials:true
+	},
+	data:JSON.stringify(new Artpullmal(133)),
+	success:function(data){
+		//$("#LatestNews").append(data);
+		var models = eval("("+data+")");
+		var lat1="";
+		var lat2="";
+		var lat3="";
+		var lat4="";
+		var n=models['MsgBody']['lists'].length;
+		for(i=0;i<n;i++){
+			var tit=models['MsgBody'].lists[i].title;
+			var ctstamp=models['MsgBody'].lists[i].ctstamp;
+			var time= new Date(ctstamp*1000);
+			var y=time.getFullYear();
+			var m=time.getMonth()+1;
+			var d=time.getDate();
+			var urlk=models['MsgBody'].lists[i].articleid;
+			//var med=models['MsgBody'].lists[i].medal;
+			//var laid=models['MsgBody'].lists[i].labelids[0];
+			
+			if(models['MsgBody'].lists[i].medal!=null){
+				lat1+="<li>"+"<em>【活动】</em>"+"<a href='http://qqgame.qq.com/gameinfo/10127.html#"+urlk+"' target='_blank'>"+tit+"</a>"+"<span>"+y+m+d+"</span></li>";//热门活动
+			}
+				
+		}
+		$("#newsList3 ul").append(lat1);
+	}
+});
+$.ajax({
+	url:"http://forum.minigame.qq.com/GameForums/ForumsArticle",
+	type:'POST',
+	crossDomain:true,
+	xhrFields:{
+		withCredentials:true
+	},
+	data:JSON.stringify(new Artpullmal(120)),
+	success:function(data){
+		//$("#LatestNews").append(data);
+		var models = eval("("+data+")");
+		var lat1="";
+		var lat2="";
+		var lat3="";
+		var lat4="";
+		var n=models['MsgBody']['lists'].length;
+		for(i=0;i<n;i++){
+			var tit=models['MsgBody'].lists[i].title;
+			var ctstamp=models['MsgBody'].lists[i].ctstamp;
+			var time= new Date(ctstamp*1000);
+			var y=time.getFullYear();
+			var m=time.getMonth()+1;
+			var d=time.getDate();
+			var urlk=models['MsgBody'].lists[i].articleid;
+			//var med=models['MsgBody'].lists[i].medal;
+			//var laid=models['MsgBody'].lists[i].labelids[0];
+			if(models['MsgBody'].lists[i].medal!=null){
+				lat1+="<li>"+"<em>【攻略】</em>"+"<a href='http://qqgame.qq.com/gameinfo/10127.html#"+urlk+"' target='_blank'>"+tit+"</a>"+"<span>"+y+m+d+"</span></li>";//攻略合集
+			}
+				
+		}
+		$("#newsList4 ul").append(lat1);
+	}
+});
+
+function ft(objc){return (typeof objc=='object')?obj:document.getElementById(objc);}
+(function(){
+	var o;
+	for(var ia=1;ia<4;ia++){
+		o=ft("newsList"+ia).getElementsByTagName("li");
+		alert(o[0].innerText);
+		o[0].className="one-news";
+	}
+	})();//头条新闻	
+
+</script>
+</body>
+</html>
